@@ -1,11 +1,55 @@
 #include "UW_GENE_121.h"
 
+
+void runCourse1()
+{
+}
+
+void runCourse2()
+{
+}
+
+void runCourse3()
+{
+}
+
 void main(void)
 {   
-  //These two lines MUST be the first two lines of main, or else the motors
-  //don't work
+    //Init Code - DO NOT TOUCH!
     initialize();
     wait1Msec(200);
+    
+
+    resetTimer();
+    LEDon(RED_LED);
+    
+    int pushes = 1;
+    while (time1()<5000) // Initialise time to chose course
+    {
+      //Counts button pushes and displays appropriate light on bar
+      while (getSensor(BUTTON) == 0)
+      {}
+      pushes++;
+      while (getSensor(BUTTON) != 0)
+      {}
+      pushes = pushes %3 ;
+      LEDnum(pushes-1);
+    }
+    
+    int courseNUM = pushes
+    LEDoff(RED_LED);
+    LEDon(GREEN_LED);
+    
+    
+    //Runs appropriate course
+    if (courseNUM = 1)
+      runCourse1();
+    else if (courseNUM == 2)
+      runCourse2();
+    else
+      runCourse3();
+    
+    
     
     //wait for a button press
     while(getSensor(BUTTON) == 0)
@@ -19,6 +63,9 @@ void main(void)
       LEDnum(i % 8);  // choose LED from 0 to 7
       wait1Sec(1);
     }
+    
+    LEDoff(GREEN_LED);
+    
     
     //Below is sample software showing how to use various functions.
     //It doesn't actually do much, so don't try to run it as-is :-)
