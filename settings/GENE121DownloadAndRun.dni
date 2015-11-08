@@ -35,7 +35,7 @@ ActionState=1
 [Simulator]
 Freq=1000000
 [DebugChecksum]
-Checksum=-473595962
+Checksum=1764152569
 [EEM State Storage]
 Buffer=BAAAAAAADAAAAAAAAAAAAAAA
 [EEM Sequencer]
@@ -59,16 +59,10 @@ Control Register=-1
 Counter0=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 [EEM Cycle Counter 1]
 Counter1=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
 [Breakpoints]
 Bp0=_ "STD_CODE" "Memory:0xC038" 0 0 0 0 "" 0 ""
-Count=1
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\GENE121_Test.cpp}.41.5" 1 0 0 0 "" 0 ""
+Count=2
 [FET]
 Clock mode=38
 Extended Clock mode=1
@@ -89,6 +83,13 @@ SP=0
 SR=0
 all registers=0
 File name=
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [Aliases]
 Count=0
 SuppressDialog=0

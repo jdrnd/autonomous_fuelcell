@@ -1,16 +1,64 @@
 #include "UW_GENE_121.h"
 
+const int BLACK = 70;
+
+void followLine()
+{
+    while (getSensor(BUMPER) == 0)
+    {
+      setMotor(MOTOR_A,-100);
+      setMotor(MOTOR_B,100);
+      
+      while (getSensor(REFLECT_2)>BLACK && getSensor(REFLECT_1)>BLACK)
+      {
+      }	
+      while (getSensor(REFLECT_2<BLACK))
+              {
+                      setMotor(MOTOR_A,0);
+                      setMotor(MOTOR_B,50);
+              }
+      while (getSensor(REFLECT_1<BLACK))
+              {
+                      setMotor(MOTOR_A,-50);
+                      setMotor(MOTOR_B,0);
+              }
+    }
+    setMotor(MOTOR_A,0);
+    setMotor(MOTOR_B,0);
+}
 
 void runCourse1()
 {
+    followLine();
 }
 
 void runCourse2()
 {
+    
+    followLine();
+      
+    //When crossing intersection, continue straight
+    setMotor(MOTOR_A,-50);
+    setMotor(MOTOR_B,50);
+    wait1Msec(1000);
+    
+    followLine();
+    
+    
+    //When intersection detected, rotate until car is stradeling line
+    setMotor(MOTOR_A,-50);
+    setMotor(MOTOR_B,0);
+    while (getSensor(REFLECT_1) < BLACK && getSensor(REFLECT_2) < BLACK)
+    {}
+    
+    
+    followLine();
 }
 
 void runCourse3()
-{
+{   
+  //Runs until first intersection, then continues straight
+  followLine();
 }
 
 void main(void)
@@ -19,140 +67,50 @@ void main(void)
     initialize();
     wait1Msec(200);
     
-
+    
+    while (getSensor(BUTTON) == 0)
+    {}
+    while (getSensor(BUTTON) != 0)
+    {}
+    
+    setMotor(MOTOR_A,0);
+    setMotor(MOTOR_B,0);
+    
     resetTimer();
+    LEDoff(GREEN_LED);
     LEDon(RED_LED);
     
     int pushes = 1;
+    LEDnum(pushes-1);
+      
     while (time1()<5000) // Initialise time to chose course
     {
       //Counts button pushes and displays appropriate light on bar
-      while (getSensor(BUTTON) == 0)
-      {}
-      pushes++;
-      while (getSensor(BUTTON) != 0)
-      {}
-      pushes = pushes %3 ;
+      if (getSensor(BUTTON) != 0)
+      {
+        wait1Msec(200);
+        pushes++;
+      }
+      
+      if (pushes > 3)
+        pushes -= 3;
+      
       LEDnum(pushes-1);
     }
     
-    int courseNUM = pushes
+    int courseNUM = pushes;
     LEDoff(RED_LED);
     LEDon(GREEN_LED);
     
     
     //Runs appropriate course
-    if (courseNUM = 1)
+    if (courseNUM == 1)
       runCourse1();
     else if (courseNUM == 2)
       runCourse2();
     else
       runCourse3();
     
-    
-    
-    //wait for a button press
-    while(getSensor(BUTTON) == 0)
-    {
-      LEDon(GREEN_LED);
-    }
-    
-    //count up
-    for (int i = 0; i < 8; i++)
-    {
-      LEDnum(i % 8);  // choose LED from 0 to 7
-      wait1Sec(1);
-    }
-    
-    LEDoff(GREEN_LED);
-    
-    
-    //Below is sample software showing how to use various functions.
-    //It doesn't actually do much, so don't try to run it as-is :-)
-/*   
-    //read the button and store the  restul
-    int buttonSensor = getSensor(BUTTON);
-    //turn on the green and red indicator LEDs
-    LEDon(GREEN_LED);
-    LEDon(RED_LED);
-   
-    //this is how you wait for a button press.
-    //the button gives a 0 or a 1.  It is 1 when pressed.
-    while(buttonSensor != 1)
-    {
-      buttonSensor = getSensor(BUTTON);
-    }
-    
-    while(getSensor(BUTTON) == 1)
-    {
-    }
-    
-    while(getSensor(BUTTON)==0)
-    {
-      while(getSensor(BUMPER) == 0)
-      {
-        setMotor(MOTOR_A,-50);
-        setMotor(MOTOR_B,50);
-      }
-      setMotor(MOTOR_A,50);
-      setMotor(MOTOR_B,-50);
-      wait1Msec(2000);
-    }
-    
-    while(getSensor(BUTTON) == 0)
-    {
-      setMotor(MOTOR_A,20);
-      setMotor(MOTOR_B,-20);
-    }
-    
-      setMotor(MOTOR_A,0);
-      setMotor(MOTOR_B,0);
-    */
-    /*
-    LEDoff(GREEN_LED);
-    //This is how to read the bumper. It gives 0 or 1, it is 1 when pressed.
-    while(getSensor(BUMPER) == 0);
-    while(getSensor(BUMPER) == 1); //due to sensor bounce, this may or may not work.
-    LEDon(GREEN_LED);
-    
-    //This is how to set motors. Motor power ranges from -100 to +100
-    //setMotor(MOTOR_A,-50);  // use negative sign to reverse direction
-    //setMotor(MOTOR_B,50);  // max speed is 100
-   
-    //this is a wait function
-    wait1Msec(1000);
-    LEDoff(RED_LED);	
-    
-    //This is how you read the sensors and use the LED bar to see which one is
-    //higher or lower
-    while(getSensor(BUTTON) == 0)
-    {
-      if(getSensor(REFLECT_1) > getSensor(REFLECT_2))
-        LEDnum(4);
-      else 
-        LEDnum(0);
-    }
-    
-    for (int i = 0; i < 8; i++)
-    {
-      LEDnum(i % 8);  // choose LED from 0 to 7
-      wait1Sec(1);  */
-  
-        
-    for (int i = 0; i < 3; i++)
-    {
-      setMotor(MOTOR_A,75);
-      setMotor(MOTOR_B,75);
-      while(getSensor(BUMPER)==0) {}
-      while(getSensor(BUMPER)==1) {}
-      setMotor(MOTOR_A,50);
-      setMotor(MOTOR_B,50);
-      wait1Msec(4000);
-      setMotor(MOTOR_A,50);
-      setMotor(MOTOR_B,-50);
-      wait1Sec(2);
-      setMotor(MOTOR_A,50);
-      setMotor(MOTOR_B,50);
-      wait1Msec(3);
-    }
-  }
+    setMotor(MOTOR_A,0);
+    setMotor(MOTOR_B,0);
+}
