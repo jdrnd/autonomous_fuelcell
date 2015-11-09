@@ -4,7 +4,7 @@ const int BLACK = 70;
 
 void followLine()
 {
-    while (getSensor(BUMPER) == 0)
+    do
     {
       setMotor(MOTOR_A,-50);
       setMotor(MOTOR_B,50);
@@ -26,7 +26,10 @@ void followLine()
               while (getSensor(REFLECT_1<BLACK))
               {}
       }
-    }
+    }while ( (getSensor(BUMPER) == 0) //Breaks when bumper is touched
+            //Breaks when both sensors detect black
+            && (getSensor(REFLECT_2)>BLACK || getSensor(REFLECT_1)>BLACK));
+    
     setMotor(MOTOR_A,0);
     setMotor(MOTOR_B,0);
 }
