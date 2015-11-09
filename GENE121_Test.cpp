@@ -6,22 +6,26 @@ void followLine()
 {
     while (getSensor(BUMPER) == 0)
     {
-      setMotor(MOTOR_A,-100);
-      setMotor(MOTOR_B,100);
+      setMotor(MOTOR_A,-50);
+      setMotor(MOTOR_B,50);
       
       while (getSensor(REFLECT_2)>BLACK && getSensor(REFLECT_1)>BLACK)
       {
       }	
-      while (getSensor(REFLECT_2<BLACK))
-              {
-                      setMotor(MOTOR_A,0);
-                      setMotor(MOTOR_B,50);
-              }
-      while (getSensor(REFLECT_1<BLACK))
-              {
-                      setMotor(MOTOR_A,-50);
-                      setMotor(MOTOR_B,0);
-              }
+      if (getSensor(REFLECT_2<BLACK))
+      {
+              setMotor(MOTOR_A,0);
+              setMotor(MOTOR_B,50);
+              while (getSensor(REFLECT_2<BLACK) < BLACK)
+              {}
+      }
+      else if (getSensor(REFLECT_1<BLACK))
+      {
+              setMotor(MOTOR_A,-50);
+              setMotor(MOTOR_B,0);
+              while (getSensor(REFLECT_1<BLACK))
+              {}
+      }
     }
     setMotor(MOTOR_A,0);
     setMotor(MOTOR_B,0);
