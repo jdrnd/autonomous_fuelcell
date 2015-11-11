@@ -1,34 +1,37 @@
 #include "UW_GENE_121.h"
 
-const int BLACK = 70;
+const int BLACK = 80;
 
-void followLine()
+void followLine(int time100ms)
 {
-    do
+    resetTimer();
+    while (getSensor(BUMPER) != 1 && time100ms > time100() )
     {
-      setMotor(MOTOR_A,-50);
-      setMotor(MOTOR_B,50);
+        if (getSensor(REFLECT_1) > BLACK && getSensor(REFLECT_2) > BLACK)
+        {
+            setMotor(MOTOR_A,-50);
+            setMotor(MOTOR_B, 50);
+            while (getSensor(REFLECT_1) > BLACK && getSensor(REFLECT_2) > BLACK)
+            {}
+        }
+        
+        else if (getSensor(REFLECT_1) < BLACK && getSensor(REFLECT_2) > BLACK)
+        {
+            setMotor(MOTOR_A,-50);
+            setMotor(MOTOR_B, 20);
+            while (getSensor(REFLECT_1) < BLACK && getSensor(REFLECT_2) > BLACK)
+            {}
+        }
+        
+        else if (getSensor(REFLECT_1) > BLACK && getSensor(REFLECT_2) < BLACK)
+        {
+            setMotor(MOTOR_A,-20);
+            setMotor(MOTOR_B, 50);
+            while (getSensor(REFLECT_1) > BLACK && getSensor(REFLECT_2) < BLACK)
+            {}
+        }
       
-      while (getSensor(REFLECT_2)>BLACK && getSensor(REFLECT_1)>BLACK)
-      {
-      }	
-      if (getSensor(REFLECT_2<BLACK))
-      {
-              setMotor(MOTOR_A,0);
-              setMotor(MOTOR_B,50);
-              while (getSensor(REFLECT_2<BLACK) < BLACK)
-              {}
-      }
-      else if (getSensor(REFLECT_1<BLACK))
-      {
-              setMotor(MOTOR_A,-50);
-              setMotor(MOTOR_B,0);
-              while (getSensor(REFLECT_1<BLACK))
-              {}
-      }
-    }while ( (getSensor(BUMPER) == 0) //Breaks when bumper is touched
-            //Breaks when both sensors detect black
-            && (getSensor(REFLECT_2)>BLACK || getSensor(REFLECT_1)>BLACK));
+    }
     
     setMotor(MOTOR_A,0);
     setMotor(MOTOR_B,0);
@@ -36,36 +39,38 @@ void followLine()
 
 void runCourse1()
 {
-    followLine();
+    followLine(220);
+    setMotor(MOTOR_A,-50);
+    setMotor(MOTOR_B, 50);
+    while (getSensor(BUMPER) != 1)
+    {}
+     
+     
 }
 
 void runCourse2()
 {
     
-    followLine();
-      
-    //When crossing intersection, continue straight
+    followLine(260);
     setMotor(MOTOR_A,-50);
-    setMotor(MOTOR_B,50);
-    wait1Msec(1000);
-    
-    followLine();
-    
-    
-    //When intersection detected, rotate until car is stradeling line
-    setMotor(MOTOR_A,-50);
-    setMotor(MOTOR_B,0);
-    while (getSensor(REFLECT_1) < BLACK && getSensor(REFLECT_2) < BLACK)
+    setMotor(MOTOR_B, 50);
+    while (getSensor(BUMPER) != 1)
     {}
     
-    
-    followLine();
 }
 
 void runCourse3()
 {   
   //Runs until first intersection, then continues straight
-  followLine();
+    followLine(35);
+    setMotor(MOTOR_A,-30);
+    setMotor(MOTOR_B, 50);
+    wait1Sec(5);
+    setMotor(MOTOR_A,-50);
+    setMotor(MOTOR_B, 50); 
+    
+    while (getSensor(BUMPER) != 1)
+    {}
 }
 
 void main(void)
@@ -120,4 +125,5 @@ void main(void)
     
     setMotor(MOTOR_A,0);
     setMotor(MOTOR_B,0);
+
 }
